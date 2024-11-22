@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
-const authRoutes = require('./routes/authRoutes');
+// const authRoutes = require('./routes/authRoutes');
 const cacheMiddleware = require('./middlewares/cacheMiddleware');
 const loadRoutes = require('./routeLoader'); // 引入路由加载器  
 
