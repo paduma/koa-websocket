@@ -24,6 +24,7 @@ const generateTokens = (username) => {
   return { accessToken, refreshToken };
 };
 
+
 // 登录接口  
 router.post('/login', async (ctx) => {
   const { username, password } = ctx.request.body;
@@ -77,6 +78,32 @@ app.use(async (ctx, next) => {
   }
 
   await next();
+});
+
+const http = require('http');
+const WebSocket = require('ws');
+
+const server = http.createServer(app.callback());
+const wss = new WebSocket.Server({ server });
+
+// 处理 WebSocket 连接  
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+
+  // 监听消息  
+  ws.on('message', (message) => {
+    console.log(`Received message: ${message}`);
+    // 可以在这里进行处理并回应  
+    ws.send(`Server received: ${message}`);
+  });
+
+  // 客户端连接时发送欢迎消息  
+  ws.send('Welcome to the WebSocket server!');
+});
+
+// Koa 中间件示例  
+app.use((ctx) => {
+  ctx.body = 'Hello, this is a Koa server with WebSocket support!';
 });
 
 app.use(router.routes()).use(router.allowedMethods());
